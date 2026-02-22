@@ -16,7 +16,26 @@ public class ClienteCorporativo extends Cliente
     private int tamanoEmpresa;
 
 
-    /**
+    public  ClienteCorporativo(String nombreEmpresa, int tamanoEmpresa) {
+		this.nombreEmpresa = nombreEmpresa;
+		this.tamanoEmpresa = tamanoEmpresa;
+	}
+    
+    public String getNombreEmpresa() {
+    	return nombreEmpresa;
+    }
+    public int getTamanoEmpresa() {
+    	return tamanoEmpresa;
+    }
+    public String getTipoCliente() {
+    	return CORPORATIVO;
+    }
+    public String getIdentificador() {
+    	
+    	String identificador= "C" + nombreEmpresa;
+    	return identificador; 
+    }
+	/**
      * Crea un nuevo objeto de tipo a partir de un objeto JSON.
      * 
      * El objeto JSON debe tener dos atributos: nombreEmpresa (una cadena) y tamanoEmpresa (un número).
