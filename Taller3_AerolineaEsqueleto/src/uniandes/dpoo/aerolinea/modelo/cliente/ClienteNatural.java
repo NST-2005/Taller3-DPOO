@@ -1,6 +1,6 @@
 package uniandes.dpoo.aerolinea.modelo.cliente;
 
-public class ClienteNatural {
+public class ClienteNatural extends Cliente  {
 	
 	public static final String NATURAL="Natural";
 	private String nombre;

@@ -1,6 +1,13 @@
 package uniandes.dpoo.aerolinea.modelo;
 
 import java.util.Map;
+
+import uniandes.dpoo.aerolinea.tiquetes.Tiquete;
+
+import uniandes.dpoo.aerolinea.modelo.cliente.Cliente;
+import uniandes.dpoo.aerolinea.modelo.tarifas.CalculadoraTarifas;
+import uniandes.dpoo.aerolinea.exceptions.VueloSobrevendidoException;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -15,6 +22,7 @@ public class Vuelo {
 		this.fecha = fecha;
 		this.avion = avion;
 		this.ruta = ruta;
+		this.tiquetes= new HashMap<String, Tiquete>();
 	}
 	
 	public Ruta getRuta() {
@@ -33,16 +41,44 @@ public class Vuelo {
 	}
 	
 	public int venderTiquetes(Cliente cliente, CalculadoraTarifas calculadora, int cantidad)throws VueloSobrevendidoException {
-		int cantidadTiquetes= tiquetes.length;
-		int cupos=avion.getCapacidad()- cantidadTiquetes;
+		int cantidadVendidos= tiquetes.size();
+		int cupos=avion.getCapacidad()- cantidadVendidos;
 		
 		if (cupos<cantidad) {
-			throw new VueloSobrevendidoException();
+			throw new VueloSobrevendidoException(this);
 		}
 		
+		int totalVendidos=0;
+		
+		for (int i=0; i< cantidad; i++) {
+			int tarifa = calculadora.calcularTarifa(this, cliente);
+			String codigo= this.fecha + "-"+( cantidadVendidos + i+1);
+			
+			Tiquete nuevot = new Tiquete ( codigo, this, cliente, tarifa);
+			
+			tiquetes.put(codigo,  nuevot);
+			
+			totalVendidos +=tarifa;
+			
+		}
+		return totalVendidos;
+		
 	}
+	
+	@Override	
+	public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			Vuelo otro = (Vuelo)obj;
+			
+			return this.fecha.equals(otro.fecha) && this.ruta.getCodigoRuta().equals(otro.ruta.getCodigoRuta());
+			
+		}
+		
+}
 	
 	
 	
 
-}
+

@@ -164,7 +164,7 @@ public class Aerolinea
     public Vuelo getVuelo( String codigoRuta, String fechaVuelo )
     {
         // TODO implementar
-    	this.rutas.getRuta
+    	codigoRuta
     	
     	
         return null;
